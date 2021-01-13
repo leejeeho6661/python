@@ -1,5 +1,5 @@
 import pymysql
-conn = pymysql.connect(host='127.0.0.1', user='root',password='',port=13306, database='module_test',charset='utf8')
+conn = pymysql.connect(host='172.17.0.2', user='root',password='',port=3306, database='module_test',charset='utf8')
 cursor = conn.cursor(pymysql.cursors.DictCursor)
 
 #메인페이지를 위한 클래스
@@ -8,7 +8,6 @@ class module:
     def __init__(self):
         self.id=''
         self.pwd=''
-        self.selectMenu =''
         self.main()
     #메인 함수
     def main(self):
@@ -16,20 +15,20 @@ class module:
         print('1. 로그인')
         print('2. 회원가입')
         print('3. 종료')
-        self.selectMenu = input('번호를 선택하세요 : ')
+        selectMenu = input('번호를 입력해주세요 : ') 
         
-        if self.selectMenu == '1':
+        if selectMenu == '1':
             self.login()
         
-        elif self.selectMenu == '2':
+        elif selectMenu == '2':
             self.singUp()
             
-        elif self.selectMenu == '3':
+        elif selectMenu == '3':
             cursor.close()
             conn.close()
             exit()
         else:
-            print('옳바른 번호를 입력해주세요.\n')
+            print('다시한번 확인하세요\n')
             self.main()
     #로그인 함수
     def login(self):
@@ -51,9 +50,9 @@ class module:
     def singUp(self):
         print('#'*5,'회원가입','#'*5)
         id = input('아이디를 입력하세요 : ')
-        pwd = input('비밀번호를 입력하세요')
-        name = input('이름을 입력하세요')
-        email = input('이메일을 입력하세요')
+        pwd = input('비밀번호를 입력하세요 : ')
+        name = input('이름을 입력하세요 : ')
+        email = input('이메일을 입력하세요 : ')
         sql = 'insert into member(id,pwd,name,email,created_at) values(%s,%s,%s,%s,now())'
         try:
             cursor.execute(sql,(id,pwd,name,email))
@@ -88,10 +87,10 @@ class adminClass:
                 try:
                     cursor.execute(sql,(product_name,product_price,product_qty))
                 except:
-                    print('상품등록에 실패하였습니다.')
+                    print('상품등록에 실패하였습니다.\n')
                 else:
                     conn.commit()
-                    print('상품이 등록되었습니다다.')
+                    print('상품이 등록되었습니다다.\n')
                     self.itemAll()
                 finally:
                     self.manageItems()
@@ -108,10 +107,10 @@ class adminClass:
                     sql = 'update item set product_name=%s,product_price=%s,product_qty = %s where id='+selectItem
                     cursor.execute(sql,(product_rename if product_rename != '' else row['product_name'], int(product_reprice) if product_reprice != '' else int(row['product_price']), int(product_reqty) if product_reqty!='' else int(row['product_qty'])))
                 except:
-                    print('수정에 실패하였습니다.')
+                    print('수정에 실패하였습니다.\n')
                 else:
                     conn.commit()
-                    print('수정 완료되었습니다.')
+                    print('수정 완료되었습니다.\n')
                     self.itemAll()
                 finally:
                     self.manageItems()
@@ -122,10 +121,10 @@ class adminClass:
                     sql = 'delete from item where id='+deleteItem
                     cursor.execute(sql)
                 except:
-                    print('삭제에 실패하였습니다')
+                    print('삭제에 실패하였습니다\n')
                 else:
                     conn.commit()
-                    print('삭제 완료하였습니다.')
+                    print('삭제 완료하였습니다.\n')
                 finally:
                     self.manageItems()
             elif selectMode == '4':
@@ -139,7 +138,7 @@ class adminClass:
         cursor.execute(sql)
         rows = cursor.fetchall()
         if len(rows) == 0:
-            print('물품이 존재하지 않습니다.')
+            print('물품이 존재하지 않습니다.\n')
             self.adminPage()
         else:
             print("{:<3}\t{:<20}\t\t{:<20}\t{:<4}\t{}".format('ID','상품명','가격','수량','등록 날짜'))
@@ -152,7 +151,7 @@ class adminClass:
         cursor.execute(sql)
         rows = cursor.fetchall()
         if len(rows) == 0:
-            print('가입한 회원이 존재하지 않습니다.')
+            print('가입한 회원이 존재하지 않습니다.\n')
             self.adminPage()
         else:
             print("{:<10}\t{:<10}\t{:<30}\t{}".format('ID','이름','이메일','가입 날짜'))
@@ -165,7 +164,7 @@ class adminClass:
         cursor.execute(sql)
         rows = cursor.fetchall()
         if len(rows) == 0:
-            print('주문 내역이 존재하지 않습니다.')
+            print('주문 내역이 존재하지 않습니다.\n')
             self.adminPage()
         else:
             print("{:<20}{:<20}{:<20}{:<20}{:<20}{}".format('Order Id','Member Id','Purchase Id','Product Price','Product Quantity','Date'))
@@ -179,13 +178,12 @@ class adminClass:
         cursor.execute(sql,(userId))
         rows = cursor.fetchall()
         if len(rows)==0:
-            print('다시한번 확인하시기 바랍니다.')
-            self.adminPage()
+            print('다시한번 확인하시기 바랍니다.\n')
         else:
             print('{:<20}{:<20}{:<20}{:<20}{:<20}{:<20}{}'.format('ID','USER ID','PRODUCT ID','PRODUCT NAME','PRICE','QUANTITY','DATE'))
             for row in rows:
                 print('{:<20}{:<20}{:<20}{:<20}{:<20,}{:<20,}{}'.format(row['id'],row['member_id'],row['item_id'],row['item_name'],row['order_price'],row['order_qty'],row['created_at']))
-            self.adminPage()
+	self.adminPage()
 
     #최근 1주일간 가장 큰 금액을 구매한 유저를 출력하기 위한 함수
     def weeklyMember(self):
@@ -193,13 +191,12 @@ class adminClass:
         cursor.execute(sql)
         rows = cursor.fetchall()
         if len(rows)==0:
-            print('근 1주일간 구매내역이 없습니다.')
-            self.adminPage()
+            print('근 1주일간 구매내역이 없습니다.\n')
         else:
             print('{:<20}{:<20}{}'.format('Purchase','Total Price','Member Id'))
             for row in rows:
                 print('{:<20}{:<20,}{}'.format(row['Purchase'],row['Total Price'],row['member_id']))
-            self.adminPage()
+        self.adminPage()
 
     #최근 1달간 가장 큰 금액을 구매한 유저를 출력하기 위한 함수
     def monthlyMember(self):
@@ -207,13 +204,12 @@ class adminClass:
         cursor.execute(sql)
         rows = cursor.fetchall()
         if len(rows)==0:
-            print('근 1달간 구매내역이 없습니다.')
-            self.adminPage()
+            print('근 1달간 구매내역이 없습니다.\n')
         else:
             print('{:<20}{:<20}{}'.format('Purchase','Total Price','Member Id'))
             for row in rows:
                 print('{:<20}{:<20,}{}'.format(row['Purchase'],row['Total Price'],row['member_id']))
-            self.adminPage()
+        self.adminPage()
 
     #최근 1주일간 주문 내역이 가장 많은 제품의 순위별로 출력하기 위한 함수
     def weeklyItem(self):
@@ -221,13 +217,12 @@ class adminClass:
         cursor.execute(sql)
         rows = cursor.fetchall()
         if len(rows)==0:
-            print('근 1주일간 구매내역이 없습니다.')
-            self.adminPage()
+            print('근 1주일간 구매내역이 없습니다.\n')
         else:
             print('{:<20}{:<20}{}'.format('Purchase','Total Quantity','Product Name'))
             for row in rows:
                 print('{:<20}{:<20,}{}'.format(row['Purchase'],row['Total Quantity'],row['item_name']))
-            self.adminPage()
+        self.adminPage()
    
     #최근 1달간 주문 내역이 가장 많은 제품의 순위별로 출력하기 위한 함수
     def monthlyItem(self):
@@ -235,13 +230,12 @@ class adminClass:
         cursor.execute(sql)
         rows = cursor.fetchall()
         if len(rows)==0:
-            print('근 1달간 구매내역이 없습니다.')
-            self.adminPage()
+            print('근 1달간 구매내역이 없습니다.\n')
         else:
             print('{:<20}{:<20}{}'.format('Purchase','Total Quantity','Product Name'))
             for row in rows:
                 print('{:<20}{:<20,}{}'.format(row['Purchase'],row['Total Quantity'],row['item_name']))
-            self.adminPage()
+        self.adminPage()
         
     #관리자 페이지의 메인 함수
     def adminPage(self):
@@ -319,10 +313,10 @@ class normalClass:
                 sql = 'update member set pwd=%s, email=%s where id=%s'
                 cursor.execute(sql,(pwd if pwd !='' else row['pwd'], email if email != '' else row['email'],self.id))
             except:
-                print('수정에 실패하였습니다.')
+                print('수정에 실패하였습니다.\n')
             else:
                 conn.commit()
-                print('수정 완료되었습니다.')
+                print('수정 완료되었습니다.\n')
             finally:
                 self.updateInfo()
         elif selectMode == '2':
@@ -332,12 +326,13 @@ class normalClass:
                     sql = 'delete from member where id=\''+self.id+"'"
                     cursor.execute(sql)
                 except:
-                    print('삭제에 실패하였습니다')
+                    print('삭제에 실패하였습니다\n')
+		    self.updateInfo()
                 else:
                     conn.commit()
-                    print('삭제 완료하였습니다.')
-                finally:
+                    print('삭제 완료하였습니다.\n')
                     module()
+
         elif selectMode == '3':
             self.userPage()
         else:
@@ -370,19 +365,19 @@ class normalClass:
             try:
                 count = input('구매할 제품의 수량을 입력하세요({}이하) : '.format(row['product_qty']))
                 if int(count)>row['product_qty']:
-                    print('재고보다 많은양은 주문이 불가능합니다.')
+                    print('재고보다 많은양은 주문이 불가능합니다.\n')
                     self.buyList()
                 sql = 'update item set product_qty=product_qty-%s where product_name=%s;'
                 cursor.execute(sql,(count,item))
             except:
-                print('구매에 실패하였습니다.')
+                print('구매에 실패하였습니다.\n')
             else:
                 try:
                     sql = 'insert into orders(member_id,item_id,item_name,order_qty,order_price,created_at) values(%s,%s,%s,%s,%s,now())'
                     tmp = cursor.execute(sql,(self.id,str(row['id']),item,count,str(int(row['product_price'])*int(count))))
                     print(tmp)
                 except:
-                    print('구매에 실패하였습니다.')
+                    print('구매에 실패하였습니다.\n')
                 else:
                     conn.commit()
             finally:
@@ -396,9 +391,13 @@ class normalClass:
         sql = 'select product_name,product_price,product_qty from item where product_qty>0'
         cursor.execute(sql)
         rows = cursor.fetchall()
-        print('{:<10}\t{:<10}\t{:<5}'.format('상품명','가격','수량'))
-        for row in rows:
-            print('{:<10}\t{:<10,}\t{:<5,}'.format(row['product_name'],row['product_price'],row['product_qty']))
+	if len(rows) ==0:
+	    print('구매 가능할 물건이 없습니다.\n')
+	    self.userPage()
+	else:
+            print('{:<10}\t{:<10}\t{:<5}'.format('상품명','가격','수량'))
+            for row in rows:
+                print('{:<10}\t{:<10,}\t{:<5,}'.format(row['product_name'],row['product_price'],row['product_qty']))
     
     #로그인한 유저의 주문 내역
     def myOrderList(self):
