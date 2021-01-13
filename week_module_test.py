@@ -328,7 +328,7 @@ class normalClass:
                     cursor.execute(sql)
                 except:
                     print('삭제에 실패하였습니다\n')
-		            self.updateInfo()
+                    self.updateInfo()
                 else:
                     conn.commit()
                     print('삭제 완료하였습니다.\n')
@@ -392,10 +392,10 @@ class normalClass:
         sql = 'select product_name,product_price,product_qty from item where product_qty>0'
         cursor.execute(sql)
         rows = cursor.fetchall()
-	if len(rows) ==0:
-	    print('구매 가능할 물건이 없습니다.\n')
-	    self.userPage()
-	else:
+        if len(rows) == 0:
+	        print('구매 가능할 물건이 없습니다.\n')
+	        self.userPage()
+        else:
             print('{:<10}\t{:<10}\t{:<5}'.format('상품명','가격','수량'))
             for row in rows:
                 print('{:<10}\t{:<10,}\t{:<5,}'.format(row['product_name'],row['product_price'],row['product_qty']))
