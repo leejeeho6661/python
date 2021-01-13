@@ -10,26 +10,30 @@ class module:
         self.pwd=''
         self.selectMenu =''
         self.main()
+    
     #메인 함수
     def main(self):
-        print('#'*5,'Main','#'*5)
-        print('1. 로그인')
-        print('2. 회원가입')
-        print('3. 종료')
-        self.selectMenu = input('번호를 선택하세요 : ')
+        try:
+            print('#'*5,'Main','#'*5)
+            print('1. 로그인')
+            print('2. 회원가입')
+            print('3. 종료')
+            self.selectMenu = input('번호를 선택하세요 : ')
         
-        if self.selectMenu == '1':
-            self.login()
+            if self.selectMenu == '1':
+                self.login()
         
-        elif self.selectMenu == '2':
-            self.singUp()
+            elif self.selectMenu == '2':
+                self.singUp()
             
-        elif self.selectMenu == '3':
-            cursor.close()
-            conn.close()
-            exit()
-        else:
-            print('옳바른 번호를 입력해주세요.\n')
+            elif self.selectMenu == '3':
+                cursor.close()
+                conn.close()
+                exit()
+            else:
+                print('옳바른 번호를 입력해주세요.\n')
+                self.main()
+        except:
             self.main()
     #로그인 함수
     def login(self):
