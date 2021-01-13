@@ -19,7 +19,9 @@ class module:
             print('2. 회원가입')
             print('3. 종료')
             self.selectMenu = input('번호를 선택하세요 : ')
-        
+        except:
+            self.main()
+        else:
             if self.selectMenu == '1':
                 self.login()
         
@@ -33,8 +35,6 @@ class module:
             else:
                 print('옳바른 번호를 입력해주세요.\n')
                 self.main()
-        except:
-            self.main()
     #로그인 함수
     def login(self):
         print('#'*5,'Login','#'*5)
