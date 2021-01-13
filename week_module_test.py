@@ -183,7 +183,8 @@ class adminClass:
             print('{:<20}{:<20}{:<20}{:<20}{:<20}{:<20}{}'.format('ID','USER ID','PRODUCT ID','PRODUCT NAME','PRICE','QUANTITY','DATE'))
             for row in rows:
                 print('{:<20}{:<20}{:<20}{:<20}{:<20,}{:<20,}{}'.format(row['id'],row['member_id'],row['item_id'],row['item_name'],row['order_price'],row['order_qty'],row['created_at']))
-	self.adminPage()
+	    
+        self.adminPage()
 
     #최근 1주일간 가장 큰 금액을 구매한 유저를 출력하기 위한 함수
     def weeklyMember(self):
@@ -327,7 +328,7 @@ class normalClass:
                     cursor.execute(sql)
                 except:
                     print('삭제에 실패하였습니다\n')
-		    self.updateInfo()
+		            self.updateInfo()
                 else:
                     conn.commit()
                     print('삭제 완료하였습니다.\n')
