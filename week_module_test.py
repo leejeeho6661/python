@@ -141,9 +141,9 @@ class adminClass:
             print('물품이 존재하지 않습니다.\n')
             self.adminPage()
         else:
-            print("{:<3}\t{:<20}\t\t{:<20}\t{:<4}\t{}".format('ID','상품명','가격','수량','등록 날짜'))
+            print("{:<3}{:<20}{:<20}{:<4}{}".format('ID','상품명','가격','수량','등록 날짜'))
             for row in rows:
-                print("{:<3}\t{:<20}\t\t{:<20,}원\t{:<4}\t{}".format(row['id'],row['product_name'],row['product_price'],row['product_qty'],row['created_at']))
+                print("{:<3}{:<20}{:<20,}{:<4}{}".format(row['id'],row['product_name'],row['product_price']+'원',row['product_qty'],row['created_at']))
    
     #가입한 유저를 출력하기 위한 함수
     def memberAll(self):
@@ -154,9 +154,9 @@ class adminClass:
             print('가입한 회원이 존재하지 않습니다.\n')
             self.adminPage()
         else:
-            print("{:<10}\t{:<10}\t{:<30}\t{}".format('ID','이름','이메일','가입 날짜'))
+            print("{:<10}{:<10}{:<30}{}".format('ID','이름','이메일','가입 날짜'))
             for row in rows:
-                print("{:<10}\t{:<10}\t{:<30}\t{}".format(row['id'],row['name'],row['email'],row['created_at']))
+                print("{:<10}{:<10}{:<30}{}".format(row['id'],row['name'],row['email'],row['created_at']))
    
     #모든 주문내역을 출력하기 위한 함수
     def OrdersAll(self):
@@ -169,7 +169,7 @@ class adminClass:
         else:
             print("{:<20}{:<20}{:<20}{:<20}{:<20}{}".format('Order Id','Member Id','Purchase Id','Product Price','Product Quantity','Date'))
             for row in rows:
-                print("{:<20}{:<20}{:<20}{:<20,}{:<20}{}".format(row['id'],row['member_id'],row['item_id'],row['order_price'],row['order_qty'],row['created_at']))
+                print("{:<20}{:<20}{:<20}{:<20,}{:<20}{}".format(row['id'],row['member_id'],row['item_id'],row['order_price']+'원',row['order_qty'],row['created_at']))
    
     #특정 유저의 주문내역을 출력하기 위한 함수
     def OrdersMemberId(self):
@@ -182,7 +182,7 @@ class adminClass:
         else:
             print('{:<20}{:<20}{:<20}{:<20}{:<20}{:<20}{}'.format('ID','USER ID','PRODUCT ID','PRODUCT NAME','PRICE','QUANTITY','DATE'))
             for row in rows:
-                print('{:<20}{:<20}{:<20}{:<20}{:<20,}{:<20,}{}'.format(row['id'],row['member_id'],row['item_id'],row['item_name'],row['order_price'],row['order_qty'],row['created_at']))
+                print('{:<20}{:<20}{:<20}{:<20}{:<20,}{:<20,}{}'.format(row['id'],row['member_id'],row['item_id'],row['item_name'],row['order_price']+'원',row['order_qty'],row['created_at']))
 	    
         self.adminPage()
 
@@ -196,7 +196,7 @@ class adminClass:
         else:
             print('{:<20}{:<20}{}'.format('Purchase','Total Price','Member Id'))
             for row in rows:
-                print('{:<20}{:<20,}{}'.format(row['Purchase'],row['Total Price'],row['member_id']))
+                print('{:<20}{:<20,}{}'.format(row['Purchase'],row['Total Price']+'원',row['member_id']))
         self.adminPage()
 
     #최근 1달간 가장 큰 금액을 구매한 유저를 출력하기 위한 함수
@@ -207,9 +207,9 @@ class adminClass:
         if len(rows)==0:
             print('근 1달간 구매내역이 없습니다.\n')
         else:
-            print('{:<20}{:<20}{}'.format('Purchase','Total Price','Member Id'))
+            print('{:<30}{:<30}{}'.format('Purchase','Total Price','Member Id'))
             for row in rows:
-                print('{:<20}{:<20,}{}'.format(row['Purchase'],row['Total Price'],row['member_id']))
+                print('{:<30}{:<30,}{}'.format(row['Purchase'],row['Total Price']+'원',row['member_id']))
         self.adminPage()
 
     #최근 1주일간 주문 내역이 가장 많은 제품의 순위별로 출력하기 위한 함수
@@ -350,9 +350,9 @@ class normalClass:
             self.itemList()
             print('다시한번 확인하시기 바랍니다.\n')
         else:
-            print('{:<10}\t{:<10}\t{:<5}'.format('상품명','가격','수량'))
+            print('{:<30}{:<20}{:<5}'.format('상품명','가격','수량'))
             for row in rows:
-                print('{:<10}\t{:<10,}\t{:<5,}'.format(row['product_name'],row['product_price'],row['product_qty']))
+                print('{:<30}{:<20,}{:<5,}'.format(row['product_name'],row['product_price']+'원',row['product_qty']))
         self.userPage()
 
     #물품 구매 함수
@@ -396,9 +396,9 @@ class normalClass:
 	        print('구매 가능할 물건이 없습니다.\n')
 	        self.userPage()
         else:
-            print('{:<10}\t{:<10}\t{:<5}'.format('상품명','가격','수량'))
+            print('{:<30}{:<10}{:<5}'.format('상품명','가격','수량'))
             for row in rows:
-                print('{:<10}\t{:<10,}\t{:<5,}'.format(row['product_name'],row['product_price'],row['product_qty']))
+                print('{:<30}{:<10,}{:<5,}'.format(row['product_name'],row['product_price']+'원',row['product_qty']))
     
     #로그인한 유저의 주문 내역
     def myOrderList(self):
@@ -409,9 +409,9 @@ class normalClass:
             if len(rows) == 0:
                 print('주문 내역이 없습니다.')
             else:
-                print('{:<10}\t{:<10}\t{:<10}\t{}'.format('제품명','구매 가격','구매 개수','구매 일자'))
+                print('{:<30}{:<20}{:<10}{}'.format('제품명','구매 가격','구매 개수','구매 일자'))
                 for row in rows:
-                    print('{:<10}\t{:<10,}\t{:<10,}\t{}'.format(row['item_name'],row['order_price'],row['order_qty'],row['created_at']))
+                    print('{:<30}{:<20,}{:<10,}{}'.format(row['item_name'],row['order_price']+'원',row['order_qty'],row['created_at']))
         except Exception as e:
             print('주문 내역을 불러오는데 실패했습니다.',e)
         finally:
